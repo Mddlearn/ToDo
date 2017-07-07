@@ -1,0 +1,82 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}Todo{% endblock%}</title>
+	<meta charset="UTF-8">
+	
+	<link rel="stylesheet" href="/static/css/bootstrap.css">
+	
+	{% block extra_head %}
+	<style>
+		body {padding-top: 100px;}
+		.ftodo{text-decoration: line-through;}
+		textarea{width: 97%;
+			padding: 100px;
+			font-size: 100px;
+			resize: vertical;}
+	</style>
+	
+	{% endblock %}
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="span8 offset2">
+				<div id="todo" class="well">
+					{% block todo %}
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>
+									<h3 class="text-success">待办事项</h3>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for todo in todolist %}
+							{% if todo.priority == 1 %}
+							<tr class="danger">
+							{% endif %}
+							{% if todo.priority == 2 %}
+							<tr class="warning">
+							{% endif %}
+							{% if todo.priority == 3 %}
+							<tr class="info">
+							{% endif %}
+								<td class="todo">{{ todo.todo }} </td>
+								<td class="te">
+									<div class="span2">
+										<a href="/focus/finishtodo/{{todo.id}}" ><span class="glyphicon glyphicon-check"></span></i></a>
+										<a href="/focus/edittodo/{{todo.id}}" ><span class="glyphicon glyphicon-edit"></span></a>
+										<a href="/focus/tododelete/{{todo.id}}" ><span class="glyphicon glyphicon-remove"></span></a>
+									</div>
+								</td>
+							</tr>
+							
+							{% endfor %}
+							{% for ftodo in finishtodos %}
+							<tr class="success">
+								<td class="ftodo muted">{{ ftodo.todo }}</td>
+								<td class="te">
+									<div class="span2">
+										<a href="/focus/backtodo/{{ ftodo.id }}" ><span class="glyphicon glyphicon-backward"></span></a>
+										
+										<a href="/focus/tododelete/{{ ftodo.id}}" ><span class="glyphicon glyphicon-remove"></span></a>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<a class="btn btn-success" href="/focus/addtodo/" role="button" data-toggle="modal">
+						<i class="glyphicon-plus "><span>ADD</span></i>
+					</a>
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>
